@@ -4,9 +4,9 @@ from database.import_csv_record import export_csv_to_table
 import os
 
 # set environmental variables 
-os.environ['SQL_SERVER'] = 'DESKTOP-GCHQTV2\SQLSERVER2022' #'your_sql_server'
-os.environ['POSTGRES_USERNAME'] = 'postgres'
-os.environ['POSTGRES_PASSWORD'] = 'registration619'
+os.environ['SQL_SERVER'] =  #'your_sql_server'
+os.environ['POSTGRES_USERNAME'] = #'your postgres username
+os.environ['POSTGRES_PASSWORD'] = # your postgrespassword
 os.environ['POSTGRES_HOST'] = 'localhost'
 sql_server = os.environ.get('SQL_SERVER')
 postgres_username = os.environ.get('POSTGRES_USERNAME')
