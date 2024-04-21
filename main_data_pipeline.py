@@ -64,7 +64,7 @@ if __name__ == "__main__":
     producturl = "https://dummyjson.com/products"
     postcsv_path = os.path.join(os.getcwd(), 'data/post.csv')
     productcsv_path = os.path.join(os.getcwd(), 'data/products.csv')
-    post_table_name = 'post'
+    post_table_name = 'post' # pluralize 
     product_table_name = "product"
     db_name = "dummyjson"
     
