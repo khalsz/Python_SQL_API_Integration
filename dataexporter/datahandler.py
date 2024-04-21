@@ -62,13 +62,13 @@ class APIDatahandler:
                 
                 counter = 0 
                 # subsetting the json data to extract needed value and loop through
-                for data in list(json_data.items())[0][1]: 
+                for data in list(json_data.items())[0][1]: # change to keys() memory issues
                     # writing the first row of the json data to csv as header
                     if counter == 0: 
                         header = data.keys()  
                         csv_data.writerow(header)
                         counter += 1
-                    csv_data.writerow(data.values())
+                    csv_data.writerow(data.values()) # change to keys() memory issues
                 print("successfully saved file to csv")
         except Exception as e: 
             raise Exception(f'Error saving file to csv {e}')
