@@ -4,16 +4,16 @@ from database.import_csv_record import export_csv_to_table
 import os
 
 # set environmental variables 
-os.environ['SQL_SERVER'] =  #'your_sql_server'
-os.environ['POSTGRES_USERNAME'] = #'your postgres username
-os.environ['POSTGRES_PASSWORD'] = # your postgrespassword
+os.environ['SQL_SERVER'] =  "sql_serv name"
+os.environ['POSTGRES_USERNAME'] = 'postgresql username'
+os.environ['POSTGRES_PASSWORD'] = 'posgresql password'
 os.environ['POSTGRES_HOST'] = 'localhost'
 sql_server = os.environ.get('SQL_SERVER')
 postgres_username = os.environ.get('POSTGRES_USERNAME')
 postgres_password = os.environ.get('POSTGRES_PASSWORD')
 postgres_host = os.environ.get('POSTGRES_HOST')
 
-def main(url:str, csv_file_path:str, tab_name:str, db_name): 
+def main(url:str, csv_file_path:str, tab_name:str, db_name, data_key:str): 
     """
     Main function to execute the data pipeline process.
 
@@ -22,6 +22,7 @@ def main(url:str, csv_file_path:str, tab_name:str, db_name):
         csv_file_path (str): Path to the CSV file to be saved.
         tab_name (str): Name of the database table.
         db_name (str): Name of the database.
+        data_key (str): data key to be extracted from the API request json content
 
     Returns:
         None
@@ -35,7 +36,7 @@ def main(url:str, csv_file_path:str, tab_name:str, db_name):
         json_data = apidata.fetch_data()
         
         # Save JSON data to a CSV file
-        apidata.save_json_to_csv(csv_file_path=csv_file_path, json_data=json_data)
+        apidata.save_json_to_csv(csv_file_path=csv_file_path, json_data=json_data, extract_key=data_key)
         
         # Connect to SQL Server
         sql_server_engine = connect_to_db(db_name=db_name, 
@@ -64,12 +65,14 @@ if __name__ == "__main__":
     producturl = "https://dummyjson.com/products"
     postcsv_path = os.path.join(os.getcwd(), 'data/post.csv')
     productcsv_path = os.path.join(os.getcwd(), 'data/products.csv')
-    post_table_name = 'post' # pluralize 
-    product_table_name = "product"
+    post_table_name = 'posts'  
+    product_table_name = "products"
     db_name = "dummyjson"
     
     # Execute main function for posts data
-    main(url=posturl, csv_file_path=postcsv_path, tab_name=post_table_name, db_name=db_name)
+    main(url=posturl, csv_file_path=postcsv_path, tab_name=post_table_name, 
+         db_name=db_name, data_key='posts')
     
     # Execute main function for products data
-    main(url=producturl, csv_file_path=productcsv_path, tab_name=product_table_name, db_name=db_name) 
+    main(url=producturl, csv_file_path=productcsv_path, tab_name=product_table_name, 
+         db_name=db_name, data_key='products') 
