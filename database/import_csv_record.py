@@ -23,8 +23,11 @@ def export_csv_to_table(table_name, engine, csv_file):
         df.to_sql(table_name, engine, if_exists="append")
         
         # Fetch and print the first 5 rows from the table
-        result = engine.execute(f"select * from {table_name}").fetchall() 
-        for row in result[:5]: 
+        if 'postgresql' in engine.url.drivername: 
+            result = engine.execute(f"select * from {table_name} limit 5").fetchall() 
+        if 'mssql' in engine.url.drivername:
+            result = engine.execute(f"select TOP(5) * from {table_name}").fetchall()
+        for row in result: 
             print(row)
     except exc.SQLAlchemyError as e: 
         # Handle SQLAlchemy errors

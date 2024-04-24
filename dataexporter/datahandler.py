@@ -42,13 +42,14 @@ class APIDatahandler:
             raise Exception(f"Error: {e}")
 
     
-    def save_json_to_csv(self, csv_file_path:str, json_data:dict): 
+    def save_json_to_csv(self, csv_file_path:str, json_data:dict, extract_key: str): 
         """
         Saves JSON data to a CSV file.
 
         Args:
             csv_file_path (str): Path to the CSV file to be saved.
             json_data (dict): JSON data to be saved.
+            extract_key (str): the key to used to extract the target data
 
         Raises:
             AssertionError: If the JSON data is not a valid dictionary.
@@ -62,13 +63,13 @@ class APIDatahandler:
                 
                 counter = 0 
                 # subsetting the json data to extract needed value and loop through
-                for data in list(json_data.items())[0][1]: # change to keys() memory issues
+                for data in json_data[extract_key]: 
                     # writing the first row of the json data to csv as header
                     if counter == 0: 
                         header = data.keys()  
                         csv_data.writerow(header)
                         counter += 1
-                    csv_data.writerow(data.values()) # change to keys() memory issues
+                    csv_data.writerow(data.values()) 
                 print("successfully saved file to csv")
         except Exception as e: 
             raise Exception(f'Error saving file to csv {e}')
