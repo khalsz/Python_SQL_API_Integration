@@ -37,4 +37,13 @@ The Data Migrator is a Python project designed to fetch data from API endpoints,
 - pyodbc
 - sqlalchemy-utils
 
+## Contribution
+Contributions are welcomed! Heres is how you can contribute
+1. Fork repository
+2. create a new branch (`git checkout -b feature`)
+3. Make changes and commit them (`git commit am 'Add new features'`)
+4. Push to the branch (`git push origin feature`)
+5. Submit a pull request
 
+##  License
+This project is licensed under the MIT License - see the LICENSE.txt file for details.
