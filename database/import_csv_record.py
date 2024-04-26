@@ -1,5 +1,6 @@
 import pandas as pd
 from sqlalchemy import exc
+from sqlalchemy import  text
 
 
 def export_csv_to_table(table_name, engine, csv_file): 
@@ -20,17 +21,19 @@ def export_csv_to_table(table_name, engine, csv_file):
     
     try: 
         # Export DataFrame to the database table
-        df.to_sql(table_name, engine, if_exists="append")
-        
-        # Fetch and print the first 5 rows from the table
-        if 'postgresql' in engine.url.drivername: 
-            result = engine.execute(f"select * from {table_name} limit 5").fetchall() 
-        if 'mssql' in engine.url.drivername:
-            result = engine.execute(f"select TOP(5) * from {table_name}").fetchall()
-        for row in result: 
-            print(row)
+        df.to_sql(table_name, con=engine, if_exists="replace", index_label='id', index=False)
+         
+        # instantiating engine connection
+        with engine.connect() as connection: 
+            if 'postgresql' in engine.url.drivername: 
+                # Fetch top 5 rows from postgresql table
+                result = connection.execute(text(f"select * from {table_name} limit 5")).fetchall() 
+            if 'mssql' in engine.url.drivername:
+                # Fetch top 5 rows from sql server table
+                result = connection.execute(text(f"select top(5)* from {table_name}")).fetchall()
+            # converting queried data to dataframe
+            queried_df = pd.DataFrame(result, columns=df.columns)
+            print(queried_df)
     except exc.SQLAlchemyError as e: 
         # Handle SQLAlchemy errors
-        error = str(e.__dict__['orig'])
-        print(error)
-        return
+        raise Exception(f"Error: {e}")
