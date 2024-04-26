@@ -1,0 +1,7 @@
+# defining environmental variables
+dbconfig = {'SQL_SERVER': 'YOUR SQL_SERVER NAME', 
+            'POSTGRES_USERNAME': 'YOUR POSTGRES_USERNAME', 
+            'POSTGRES_PASSWORD': 'YOUR POSTGRES_PASSWORD',
+            'POSTGRES_HOST': 'YOUR POSTGRES_HOST'}
+
+
